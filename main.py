@@ -5,6 +5,10 @@ import json
 import re
 import os
 import random
+from dotenv import load_dotenv
+
+load_dotenv()
+Token = os.environ.get("BOTTOKEN")
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='$>', intents=intents)
@@ -90,4 +94,4 @@ async def endairdrop(ctx, num_winners: int):
     await ctx.send(announcement)
     os.remove(db_file)
 
-bot.run('TOKEN')
+bot.run(Token)
