@@ -23,7 +23,7 @@ bot = commands.Bot(command_prefix='$>', intents=intents)
 
 pattern = re.compile(r"^(C[a-zA-Z0-9]{33})$")
 db_file = "airdop_db.json"
-dev_role_id = os.environ.get("dev_role_id")
+dev_role_id = int(os.environ.get("dev_role_id"))
 
 def load_db():
     try:
