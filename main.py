@@ -17,6 +17,7 @@ rpc_password = os.environ.get("rpc_password")
 rpc_port = os.environ.get("rpc_port")
 rpc_ip = os.environ.get("rpc_ip")
 from_address = os.environ.get("from_address")
+eurl = os.environ.get("explorer_url")
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='$>', intents=intents)
@@ -147,7 +148,7 @@ async def endairdrop(ctx, num_winners: int, cms_amount: int):
         sendresult = send_coins(rpc_user, rpc_password, rpc_port, rpc_ip, from_address, winner['wallet'], cms_amount)
         result = sendresult.get('result')
         results.append(result)
-        transaction_explorer_links.append(f"[Transaction Explorer](https://explorer.cmusic.ai/tx/{result})")
+        transaction_explorer_links.append(f"[Transaction Explorer]({eurl}{result})")
 
     announcement = f"Congrats! You guy(s) have won the `{cms_amount}` Cmusic airdrop! Your funds should be automatically deposited into the wallets you provided. Here are the winners: "
 
