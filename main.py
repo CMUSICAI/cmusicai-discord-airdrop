@@ -18,6 +18,7 @@ rpc_port = os.environ.get("rpc_port")
 rpc_ip = os.environ.get("rpc_ip")
 from_address = os.environ.get("from_address")
 eurl = os.environ.get("explorer_url")
+ticker = os.environ.get("ticker")
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='$>', intents=intents)
@@ -97,7 +98,7 @@ async def verify_wallet(ctx, address: str):
 @commands.check(has_required_role)
 async def airdropbal(ctx):
     balance_response = get_balance(rpc_user, rpc_password, rpc_ip, rpc_port, from_address)
-    await ctx.send("CMS Balance: " + str(balance_response))
+    await ctx.send(f"{ticker} Balance: " + str(balance_response))
 
 @bot.event
 async def on_message(message):
@@ -133,7 +134,7 @@ async def cleardb(ctx):
 
 @bot.command()
 @commands.check(has_required_role)
-async def endairdrop(ctx, num_winners: int, cms_amount: int):
+async def endairdrop(ctx, num_winners: int, coin_amount: int):
     if num_winners <= 0:
         await ctx.send("Please provide a valid number of winners.")
         return
@@ -145,12 +146,12 @@ async def endairdrop(ctx, num_winners: int, cms_amount: int):
     results = []
     transaction_explorer_links = []
     for winner in winners:
-        sendresult = send_coins(rpc_user, rpc_password, rpc_port, rpc_ip, from_address, winner['wallet'], cms_amount)
+        sendresult = send_coins(rpc_user, rpc_password, rpc_port, rpc_ip, from_address, winner['wallet'], coin_amount)
         result = sendresult.get('result')
         results.append(result)
         transaction_explorer_links.append(f"[Transaction Explorer]({eurl}{result})")
 
-    announcement = f"Congrats! You guy(s) have won the `{cms_amount}` Cmusic airdrop! Your funds should be automatically deposited into the wallets you provided. Here are the winners: "
+    announcement = f"Congrats! You guy(s) have won the `{coin_amount}` Cmusic airdrop! Your funds should be automatically deposited into the wallets you provided. Here are the winners: "
 
     winners_list_with_links = "\n".join([f"{index + 1}) <@{winner['user_id']}> - {winner['wallet']} {link}" for index, (winner, link) in enumerate(zip(winners, transaction_explorer_links))])
 
