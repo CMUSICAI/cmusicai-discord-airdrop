@@ -19,11 +19,12 @@ rpc_ip = os.environ.get("rpc_ip")
 from_address = os.environ.get("from_address")
 eurl = os.environ.get("explorer_url")
 ticker = os.environ.get("ticker")
+regexwallet = os.environ.get("regex")
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='$>', intents=intents)
 
-pattern = re.compile(r"^(C[a-zA-Z0-9]{33})$")
+pattern = re.compile(r""+regexwallet)
 db_file = "airdop_db.json"
 dev_role_id = int(os.environ.get("dev_role_id"))
 
@@ -155,7 +156,7 @@ async def endairdrop(ctx, num_winners: int, coin_amount: int):
 
     winners_list_with_links = "\n".join([f"{index + 1}) <@{winner['user_id']}> - {winner['wallet']} {link}" for index, (winner, link) in enumerate(zip(winners, transaction_explorer_links))])
 
-    announcement += f"\n\n {winners_list_with_links}\n\n `New airdrop has begun! Re-Enter your wallets to participate` @everyone`!`"
+    announcement += f"\n\n {winners_list_with_links}\n\n `New airdrop has begun! Re-Enter your wallet address to participate` @everyone`!`"
     await ctx.send(announcement)
     os.remove(db_file)
 
