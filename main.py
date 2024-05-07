@@ -84,7 +84,7 @@ def get_balance(username, password, host, port, address):
 async def verify_wallet(ctx, address: str):
     if pattern.match(address):
         async with aiohttp.ClientSession() as session:
-            async with session.get(f"https://explorer.cmusic.ai/ext/getaddress/{address}") as response:
+            async with session.get(f"{eurl}/ext/getaddress/{address}") as response:
                 if response.status == 200:
                     data = await response.json()
                     json_data = json.dumps(data, indent=2)
@@ -149,7 +149,7 @@ async def endairdrop(ctx, num_winners: int, coin_amount: int):
         sendresult = send_coins(rpc_user, rpc_password, rpc_port, rpc_ip, from_address, winner['wallet'], coin_amount)
         result = sendresult.get('result')
         results.append(result)
-        transaction_explorer_links.append(f"[Transaction Explorer]({eurl}{result})")
+        transaction_explorer_links.append(f"[Transaction Explorer]({eurl}/tx/{result})")
 
     announcement = f"Behold the victorious! Below, you'll find the list of winners for the {cms_amount} `{ticker}` airdrop. Your funds should be automatically deposited into the wallets you provided. "
 
