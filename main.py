@@ -107,13 +107,13 @@ async def on_message(message):
             db = load_db()
             user_id = str(message.author.id)
             if any(entry["user_id"] == user_id and entry["wallet"] == message.content for entry in db):
-                await message.author.send("Sorry, you have already entered the Cmusic Airdrop!")
+                await message.author.send(f"Sorry, you have already entered the {ticker} Airdrop!")
             else:
                 db.append({"user_id": user_id, "wallet": message.content})
                 save_db(db)
-                await message.author.send("Congrats! You have successfully entered into the Cmusic Airdrop!")
+                await message.author.send(f"Congrats! You have successfully entered into the {ticker} Airdrop!")
         else:
-            await message.author.send("Oops, Are you sure that's a Cmusic wallet? Please verify that it is the correct wallet and try again.")
+            await message.author.send(f"Oops, Are you sure that's a {ticker} wallet? Please verify that it is the correct wallet and try again.")
     await bot.process_commands(message)
 
 @bot.command()
@@ -151,7 +151,7 @@ async def endairdrop(ctx, num_winners: int, coin_amount: int):
         results.append(result)
         transaction_explorer_links.append(f"[Transaction Explorer]({eurl}/tx/{result})")
 
-    announcement = f"Behold the victorious! Below, you'll find the list of winners for the {cms_amount} `{ticker}` airdrop. Your funds should be automatically deposited into the wallets you provided. "
+    announcement = f"Behold the victorious! Below, you'll find the list of winners for the {coin_amount} `{ticker}` airdrop. Your funds should be automatically deposited into the wallets you provided. "
 
     winners_list_with_links = "\n".join([f"{index + 1}) <@{winner['user_id']}> - {winner['wallet']} {link}" for index, (winner, link) in enumerate(zip(winners, transaction_explorer_links))])
 
