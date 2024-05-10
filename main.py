@@ -20,6 +20,7 @@ from_address = os.environ.get("from_address")
 eurl = os.environ.get("explorer_url")
 ticker = os.environ.get("ticker")
 regexwallet = os.environ.get("regex")
+airdropchannel = os.environ.get("airdropchannel")
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='$>', intents=intents)
@@ -103,7 +104,7 @@ async def airdropbal(ctx):
 
 @bot.event
 async def on_message(message):
-    if message.channel.id == 1220821915586007090 and message.author != bot.user:
+    if message.channel.id == airdropchannel and message.author != bot.user:
         if pattern.match(message.content):
             db = load_db()
             user_id = str(message.author.id)
