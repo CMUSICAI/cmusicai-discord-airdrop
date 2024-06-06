@@ -173,7 +173,7 @@ async def endairdrop(ctx, num_winners: int, coin_amount: int):
 
     winners_list_with_links = "\n".join([f"{index + 1}) <@{winner['user_id']}> - {winner['wallet']} {link}" for index, (winner, link) in enumerate(zip(winners, transaction_explorer_links))])
 
-    announcement += f"\n\n {winners_list_with_links}\n\n `New airdrop has begun! Re-Enter your wallet address to participate` @everyone`!`"
+    announcement += f"\n\n {winners_list_with_links}\n\n `New airdrop has begun! Re-Enter your wallet address to participate`"
     await ctx.send(announcement)
     os.remove(db_file)
 
